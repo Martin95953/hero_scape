@@ -1,10 +1,6 @@
 import { HeroEntity } from '@/Entities/HeroEntity'
 import { movement_service } from "@/services/MovementService"
 class HeroService extends HeroEntity{
-    constructor() {
-        super()
-        this.HERO = HeroEntity.HERO
-    }
     getCharacter() {
         return this.HERO
     }

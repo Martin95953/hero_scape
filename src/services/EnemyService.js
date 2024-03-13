@@ -1,6 +1,7 @@
 import { EnemyEntity } from '@/Entities/EnemyEntity'
 import { movement_service } from "@/services/MovementService"
 import {HeroEntity} from "@/Entities/HeroEntity";
+import {board_service} from "@/services/BoardService";
 
 class EnemyService extends EnemyEntity{
     constructor() {
@@ -24,21 +25,7 @@ class EnemyService extends EnemyEntity{
     }
 
     moveEnemyToHero() {
-        let position = movement_service.getPosition(this.ENEMY)
-        let heroPosition = movement_service.getPosition(HeroEntity.HERO)
-        if (position[0] > heroPosition[0]) {
-            this.moveUp()
-        }
-        if (position[0] < heroPosition[0]) {
-            this.moveDown()
-        }
-        if (position[1] > heroPosition[1]) {
-            this.moveLeft()
-        }
-        if (position[1] < heroPosition[1]) {
-            this.moveRight()
-        }
-
+        movement_service.moveCharacterToAnotherCharacter(this.ENEMY, HeroEntity.HERO)
     }
 }
 export const enemy_service = new EnemyService()

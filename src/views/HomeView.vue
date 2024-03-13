@@ -5,9 +5,10 @@ import {hero_service} from "@/services/HeroService"
 import {enemy_service} from "@/services/EnemyService"
 
 let board = ref(board_service.getBoard())
-
+let is_playing = ref(false)
 
 window.addEventListener('keydown', function(e) {
+  if(!is_playing.value) return
   switch(e.key){
     case "ArrowRight":
       hero_service.moveRight()
@@ -39,31 +40,58 @@ window.addEventListener('keydown', function(e) {
 const setCharacterStyle = (index) => {
   switch(index){
     case enemy_service.getCharacter():
-      return "red"
+      return "enemy"
     case hero_service.getCharacter():
-      return "green"
+      return "hero"
+    case 1:
+      return "blue"
+    case 2:
+      return "blue"
     default:
       return ""
   }
 }
 
 
-setInterval(() => {
-  //use A* algorithm to move enemy to Hero
-  enemy_service.moveEnemyToHero()
-}, 1000)
+const play = () => {
+  is_playing.value = true
+  playSound()
+  activeEnemyMovement()
+}
+
+function playSound(){
+  const audio = new Audio(require(`@/assets/sounds/background.wav`))
+  audio.play()
+  audio.loop = true
+}
+
+function activeEnemyMovement(){
+  setInterval(() => {
+    enemy_service.moveEnemyToHero()
+  }, 1000)
+}
+
+
 
 </script>
 
 <template>
   <section class="justify-content-center">
-    <h1>Board</h1>
+    <h1>Scape & Survive</h1>
     <div class="board">
       <div v-for="(row) in board" class="rows">
         <div v-for="(index,col) in row" :key="col.id" class="cols">
           <span :class="setCharacterStyle(index)">{{index}}</span>
         </div>
       </div>
+    </div>
+    <div>
+      <h2>Instructions</h2>
+      <p>Use the arrow keys to move the hero</p>
+      <p>Use the 'wasd' keys to move the enemy</p>
+    </div>
+    <div>
+      <button @click="play">PLAY</button>
     </div>
   </section>
 </template>
@@ -74,8 +102,11 @@ setInterval(() => {
   align-items: center;
   flex-direction: column;
 }
+h1 {
+  color: yellow;
+}
 .board{
-  background: rgba(0, 59, 114, 0.55);
+  background: rgb(0, 0, 0);
 }
 .cols {
   width: 50px;
@@ -85,10 +116,13 @@ setInterval(() => {
   text-align: center;
   line-height: 50px;
 }
-.red {
+.enemy {
   color: red;
 }
-.green {
-  color: #79f679;
+.hero {
+  color: yellow;
+}
+.blue {
+  color: #2626fc;
 }
 </style>
