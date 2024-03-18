@@ -7,6 +7,7 @@ class EnemyService extends EnemyEntity{
     constructor() {
         super()
         this.ENEMY = EnemyEntity.ENEMY
+        this.loose = false
     }
     getCharacter() {
         return this.ENEMY
@@ -26,6 +27,19 @@ class EnemyService extends EnemyEntity{
 
     moveEnemyToHero() {
         movement_service.moveCharacterToAnotherCharacter(this.ENEMY, HeroEntity.HERO)
+        if(this.checkIfEnemyIsInRangeToAttack() && !this.loose) {
+            alert("You loose!")
+            this.loose = true
+            board_service.restartGame()
+        }
+    }
+
+    checkIfEnemyIsInRangeToAttack() {
+        let position = movement_service.getPosition(this.ENEMY)
+        let heroPosition = movement_service.getPosition(HeroEntity.HERO)
+        let distance = Math.sqrt(Math.pow(position.row - heroPosition.row, 2) + Math.pow(position.col - heroPosition.col, 2))
+        console.log("distance", distance)
+        return distance < 2
     }
 }
 export const enemy_service = new EnemyService()

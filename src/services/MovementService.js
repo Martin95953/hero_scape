@@ -88,7 +88,7 @@ class MovementService {
         for(let i = 0; i < path.length-1; i++) {
             setTimeout(() => {
                     this.setNewPosition(path[i].row, path[i].col, character)
-            }, 500*i)
+            }, 100*i)
         }
 
         return path

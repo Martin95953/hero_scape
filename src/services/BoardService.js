@@ -62,6 +62,10 @@ class BoardService {
         return aStar.findPath(start,end)
     }
 
+    restartGame() {
+        window.location.reload()
+    }
+
     setPosition(row, col, value) {
         this.board.value[row][col] = value
     }
