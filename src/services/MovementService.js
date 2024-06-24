@@ -70,9 +70,6 @@ class MovementService {
         let positionStart = this.getPosition(character)
         let positionEnd = this.getPosition(characterToMove)
 
-        console.log("position", positionStart)
-        console.log("positionEnd", positionEnd)
-
         let start = {
             col: positionStart.col,
             row: positionStart.row
@@ -88,7 +85,7 @@ class MovementService {
         for(let i = 0; i < path.length-1; i++) {
             setTimeout(() => {
                     this.setNewPosition(path[i].row, path[i].col, character)
-            }, 100*i)
+            }, 1000*i)
         }
 
         return path
